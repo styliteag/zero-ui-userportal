@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file docker/zero-ui/Dockerfile --tag styliteag:zero-ui-userportal:latest
+      run: docker build . --file docker/zero-ui/Dockerfile --tag styliteag/zero-ui-userportal:latest
