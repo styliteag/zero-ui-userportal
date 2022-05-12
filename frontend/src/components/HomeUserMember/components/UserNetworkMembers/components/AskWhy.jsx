@@ -32,7 +32,9 @@ function AskWhy(val) {
           .catch(function (error) {
             console.error(error);
           });
-          val.handleClose()
+        //const req = await axios.post("/api/network/" + val.nwid + "/member/" + val.mid, {"duration": time});
+        //console.log(req)
+        val.handleClose()
         }
     const handleClose = () => {
       val.handleClose()

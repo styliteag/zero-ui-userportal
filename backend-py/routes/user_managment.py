@@ -5,9 +5,11 @@ import sys, os
 sys.path.append(os.getcwd())
 from constants.constants import *
 from services.user_managment import USER_MANAGMENT
+from services.member import MEMBER
 
-
+services_member = MEMBER()
 services_user_managment = USER_MANAGMENT()
+
 
 from vars import DARWIN, LINUX
 sys_vars = DARWIN() if os.uname().sysname == "Darwin" else LINUX()
@@ -73,9 +75,10 @@ def api_user_managment_update_member(user : str):
 def api_user_managment_log_reason(user : str):
 
     if request.method == 'POST':
+        if request.json.get("duration"):
+            services_member.updateMemberAdditionalData(request.json["nwid"], request.json["mid"], {"timetolive" : services_user_managment.datetimeadd(int(request.json["duration"]))})
+        
         logger.info(f'Reason : {request.json["reason"]}  |  Duration : {request.json["duration"]}', ip=request.remote_addr, username=user)
-        t = Timer(services_user_managment.convert(request.json["duration"]), services_user_managment.deauth, args=(request.json["nwid"],request.json["mid"]))
-        t.start()     
     
     response_object = Response(200, "ok")
     return jsonify(response_object)

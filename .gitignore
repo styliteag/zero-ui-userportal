@@ -145,6 +145,10 @@ sketch
 !.vscode/extensions.json
 *.code-workspace
 
+__pycache__
+backend-py/config
+
+.yarn
 ### yarn ###
 # https://yarnpkg.com/advanced/qa#which-files-should-be-gitignored
 

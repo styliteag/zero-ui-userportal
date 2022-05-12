@@ -3,6 +3,8 @@ from typing import Hashable
 sys.path.append(os.getcwd())
 from constants.constants import *
 from services.member import MEMBER
+import datetime
+from datetime import timedelta
 
 from vars import DARWIN, LINUX
 sys_vars = DARWIN() if os.uname().sysname == "Darwin" else LINUX()
@@ -37,12 +39,11 @@ class USER_MANAGMENT():
 
     def updateUserMember(self, user : str, data : dict) -> None:
         db.clean_user_member(user)
-
         if data[0].get("config") != None:
             for member in data:
                 memberData = {"name" : self.fix_none_username(member.get("name")), "address" : member.get("config")["address"]}
                 time.sleep(0.5)
-                db.update_user_member(user, member["networkId"], memberData)
+                db.update_user_member(user, member["networkId"], memberData) 
         else:
             db.clean_user_member(user)
 
@@ -59,8 +60,32 @@ class USER_MANAGMENT():
     def deauth(self, nwid, mid):
        zerotier_api.make_request("POST", f"/controller/network/{nwid}/member/{mid}", json = {"authorized" : False})
        
-
     def convert(self, hours : int): 
         minuts  = hours  * 60
         seconds = minuts * 60
         return seconds
+        
+    def datetimecheck(self, timestamp : datetime):
+        timetolive       = timestamp
+        aktuelles_datum = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        isover = aktuelles_datum > timetolive
+        return isover
+
+    def datetimeadd(self, hour : int):
+        timetolive = datetime.datetime.now() + timedelta(hours=hour)
+        return timetolive.strftime('%Y-%m-%d %H:%M:%S')
+
+    def watcher(self):
+        for network in db.read_networks():
+            for member in network.get("members"):
+                try:
+                    if self.datetimecheck(member.get("additionalConfig").get("timetolive")) == True:
+                        self.deauth(network["id"], member["id"])
+                        try:
+                            additionalConfig = db.read_networks_member_value(network["id"], member["id"])["additionalConfig"]
+                        except:
+                            additionalConfig = {}
+                        db.update_network_members(network["id"], member["id"], {"additionalConfig" : db.merge_two_dicts(additionalConfig, {"authorized" : False})})
+                except:
+                    pass
+

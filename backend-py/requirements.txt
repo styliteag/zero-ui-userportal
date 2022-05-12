@@ -4,3 +4,4 @@ bcrypt
 tinydb
 loguru
 requests
+APScheduler
