@@ -92,6 +92,7 @@ function NetworkSettings({ network, setNetwork }) {
             </Select>
           </Grid>
           <Divider />
+          
           <Grid item>
             <ManagedRoutes
               routes={network["config"]["routes"]}

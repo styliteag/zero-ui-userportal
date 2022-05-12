@@ -31,7 +31,7 @@ def api_network_nwid_member_member(nwid : str, mid : str):
     if request.method == "POST":
 
         services_member.updateMemberAdditionalData(nwid, mid, request.json)
-
+        print(request.json)
         if type(request.json) == list:
             zerotier_api.make_request(request.method, f"/controller/network/{nwid}/member/{mid}", json = {"authorized" : request.json[0]["authorized"]})
             data = services_member.getMembersData(nwid, [mid])

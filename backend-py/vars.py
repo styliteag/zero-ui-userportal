@@ -18,9 +18,14 @@ class OS_DEFAULTS():
         "username" : username,
         "passwort" : password
         }
-    
-    default_rule_source = open("./constants/default_rules_source.txt").read()
-    default_rules       = open("./constants/default_rules.json").read()
+    try:
+        default_rule_source = open("./constants/default_rules_source.txt").read()
+    except:
+        print("Fehler beim default_rule Import")
+    try:
+        default_rules       = open("./constants/default_rules.json").read()
+    except:
+        print("Fehler beim default_rule import")
 
 
     
