@@ -97,6 +97,14 @@ function NetworkMembers({ network }) {
       cell: (row) => <ManagedIP member={row} handleChange={handleChange} />,
     },
     {
+      id: "timetolive",
+      name: "Time to Live",
+      minWidth: "150px",
+      cell: (row) => (
+        <Typography variant="body2">{row.timetolive}</Typography>
+      ),
+    },
+    {
       id: "status",
       name: "Peer status",
       minWidth: "100px",

@@ -15,9 +15,9 @@ class Zero_DB():
     """PS: Das war teilweiße ein ganz schöner Krampf"""
 
     def __init__(self, path=sys_vars.default_config_path, **kwargs) -> None:
-        self.db         = TinyDB(path + 'db.json', indent=4)
-        self.users      = self.db.table("users")
-        self.networks   = self.db.table("networks")
+        self.db         = TinyDB(path + 'db.json', indent=4, sort_keys=True)
+        self.users      = self.db.table("users", cache_size=0)
+        self.networks   = self.db.table("networks", cache_size=0)
         self.query      = Query()
 
     def write_user_credentials(self, username, salted_passwort, role):
@@ -40,6 +40,9 @@ class Zero_DB():
 
     def read_users(self):
         return self.users.all()
+
+    def read_networks(self):
+        return self.networks.all()
 
     def read_networks_value(self, value):
         return self.networks.search(self.query.id == value)

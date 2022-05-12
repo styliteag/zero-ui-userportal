@@ -101,6 +101,8 @@ class MEMBER():
             authorized = data["authorized"] if data["authorized"] == True else False
             db.update_network_members(nwid, mid, {"additionalConfig" : db.merge_two_dicts(additionalConfig, {"authorized" : authorized})} )
         ##
+        elif data.get("timetolive"):
+            db.update_network_members(nwid, mid, {"additionalConfig" : db.merge_two_dicts(additionalConfig, {"timetolive" : data["timetolive"]})} )
         else:
             if data.get("config") and data.get("config").get("authorized") != None:
                 authorized = data.get("config")["authorized"] if data.get("config")["authorized"] == True else False
