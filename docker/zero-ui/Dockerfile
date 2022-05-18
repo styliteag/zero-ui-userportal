@@ -2,6 +2,9 @@ FROM node:lts-alpine as build-stage
 
 ENV INLINE_RUNTIME_CHUNK=false
 ENV GENERATE_SOURCEMAP=false
+RUN apk add --no-cache tzdata
+ENV TZ Europe/Berlin 
+
 
 WORKDIR /app/frontend
 COPY ./frontend/package*.json /app/frontend

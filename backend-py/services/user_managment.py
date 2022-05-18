@@ -12,6 +12,7 @@ sys_vars = DARWIN() if os.uname().sysname == "Darwin" else LINUX()
 
 class USER_MANAGMENT():
     """Classe um die Anfragen rund ums UserManagment zu handeln"""
+        
 
     def _hash_passwort(self, passwort : str) -> Hashable:
         
@@ -67,12 +68,12 @@ class USER_MANAGMENT():
         
     def datetimecheck(self, timestamp : datetime):
         timetolive       = timestamp
-        aktuelles_datum = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        aktuelles_datum = datetime.datetime.now(sys_vars.tz).strftime('%Y-%m-%d %H:%M:%S')
         isover = aktuelles_datum > timetolive
         return isover
 
     def datetimeadd(self, hour : int):
-        timetolive = datetime.datetime.now() + timedelta(hours=hour)
+        timetolive = datetime.datetime.now(sys_vars.tz) + timedelta(hours=hour)
         return timetolive.strftime('%Y-%m-%d %H:%M:%S')
 
     def watcher(self):

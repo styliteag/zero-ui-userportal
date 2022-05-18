@@ -1,11 +1,13 @@
 import pathlib
 import os
+import pytz
 
 class OS_DEFAULTS():
     """Classe um die Default Pfade und Variablen bereitzustellen"""
 
     default_config_path     = './config/'
-
+    tz = pytz.timezone('Europe/Berlin')
+    
     try:
         username = str(os.environ['ZU_DEFAULT_USERNAME'])
         password = str(os.environ['ZU_DEFAULT_PASSWORD'])
