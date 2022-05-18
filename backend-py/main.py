@@ -47,7 +47,7 @@ if __name__ == "__main__":
     """)
 
 
-    scheduler = BackgroundScheduler()
+    scheduler = BackgroundScheduler(deamon=True)
     scheduler.add_job(func=USER_MANAGMENT().watcher, trigger="interval", seconds=60)
     scheduler.start()
 
