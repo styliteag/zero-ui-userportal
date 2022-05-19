@@ -80,7 +80,8 @@ class USER_MANAGMENT():
         for network in db.read_networks():
             for member in network.get("members"):
                 try:
-                    if self.datetimecheck(member.get("additionalConfig").get("timetolive")) == True:
+                    TTL = member.get("additionalConfig").get("timetolive")
+                    if self.datetimecheck(TTL) == True and TTL != "\u221e":
                         self.deauth(network["id"], member["id"])
                         try:
                             additionalConfig = db.read_networks_member_value(network["id"], member["id"])["additionalConfig"]

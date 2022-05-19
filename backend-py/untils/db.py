@@ -15,7 +15,7 @@ class Zero_DB():
     """PS: Das war teilweiße ein ganz schöner Krampf"""
 
     def __init__(self, path=sys_vars.default_config_path, **kwargs) -> None:
-        self.db         = TinyDB(path + 'db.json', indent=4, sort_keys=True)
+        self.db         = TinyDB(path + 'db.json', indent=4)
         self.users      = self.db.table("users", cache_size=0)
         self.networks   = self.db.table("networks", cache_size=0)
         self.query      = Query()

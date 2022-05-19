@@ -15,13 +15,15 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
       
-
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
 
 
 function AskWhy(val) {
     console.log(val)
     const reason = useRef("");
-
 
     const [LoggedInUsername] = useLocalStorage("user", null);
 
@@ -32,19 +34,18 @@ function AskWhy(val) {
           .catch(function (error) {
             console.error(error);
           });
-        //const req = await axios.post("/api/network/" + val.nwid + "/member/" + val.mid, {"duration": time});
-        //console.log(req)
         val.handleClose()
         }
     const handleClose = () => {
       val.handleClose()
     }
 
-    const [time, setTime] = React.useState('');
+    const [time, setTime] = React.useState('20:00');
 
     const handleChange = (event) => {
       setTime(event.target.value);
     };
+
 
   return (
     <div>
@@ -85,8 +86,16 @@ function AskWhy(val) {
               <MenuItem value={8}>8 Stunden</MenuItem>
               <MenuItem value={9}>9 Stunden</MenuItem>
             </Select>
-        </FormControl>
+        
+        
+          <RadioGroup aria-labelledby="demo-radio-buttons-group-label" name="radio-buttons-group" value={time} onChange={handleChange}>
+            <FormControlLabel value="20:00" control={<Radio />} label="20:00 Uhr" />
+          </RadioGroup>
+          </FormControl>
         </DialogContent>
+
+
+
         <DialogActions>
           <Button onClick={handleClose}>Abbrechen</Button>
           <Button onClick={handleSubmit}>Senden</Button>

@@ -71,6 +71,14 @@ function NetworkMembers( val ) {
       ),
     },
     {
+      id: "timetolive",
+      name: "Time to Live",
+      minWidth: "150px",
+      cell: (row) => (
+        <Typography variant="body2">{row.timetolive == null ? "∞" : row.timetolive}</Typography>
+      ),
+    },
+    {
       id: "address",
       name: "Address",
       minWidth: "150px",

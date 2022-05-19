@@ -6,6 +6,7 @@ sys.path.append(os.getcwd())
 from constants.constants import *
 from services.user_managment import USER_MANAGMENT
 from services.member import MEMBER
+import datetime
 
 services_member = MEMBER()
 services_user_managment = USER_MANAGMENT()
@@ -50,7 +51,7 @@ def api_user_managment_del(user : str):
     return jsonify(response_object)
 
 @route_user_managment.route('/api/user-managment/member/<string:user>', methods=['GET', 'POST'])
-def api_user_managment_update_member(user : str):
+def api_user_managment_member(user : str):
 
     if request.method == 'GET':
         
@@ -58,7 +59,9 @@ def api_user_managment_update_member(user : str):
         for network in member:
             for idx, user_member in enumerate(member[network]):
                 auth = services_user_managment.isUserMemberAuth(network, user_member["address"])
+                member[network][idx]["timetolive"] = services_member.getMembersData(network, [user_member["address"]])[0].get("timetolive")
                 member[network][idx]["authorized"] = auth
+                print(member)
         
                 response_object = Response(200, "ok", member)
 
@@ -76,7 +79,12 @@ def api_user_managment_log_reason(user : str):
 
     if request.method == 'POST':
         if request.json.get("duration"):
-            services_member.updateMemberAdditionalData(request.json["nwid"], request.json["mid"], {"timetolive" : services_user_managment.datetimeadd(int(request.json["duration"]))})
+            try:
+                services_member.updateMemberAdditionalData(request.json["nwid"], request.json["mid"], {"timetolive" : services_user_managment.datetimeadd(int(request.json["duration"]))})
+            except:
+                services_member.updateMemberAdditionalData(request.json["nwid"], request.json["mid"], {"timetolive" : datetime.datetime.now(sys_vars.tz).strftime(f'%Y-%m-%d {request.json["duration"]}:00')})
+        else:
+            services_member.updateMemberAdditionalData(request.json["nwid"], request.json["mid"], {"timetolive" : "\u221e"})
         
         logger.info(f'Reason : {request.json["reason"]}  |  Duration : {request.json["duration"]}', ip=request.remote_addr, username=user)
     
@@ -85,3 +93,6 @@ def api_user_managment_log_reason(user : str):
 
 
     
+    def datetimeadd(self, hour : int):
+        timetolive =  + timedelta(hours=hour)
+        return timetolive.strftime('%Y-%m-%d %H:%M:%S')
