@@ -1,9 +1,6 @@
 from flask import Flask, send_from_directory
 from flask_cors import CORS
 import os
-import time
-import atexit
-from apscheduler.schedulers.background import BackgroundScheduler
 
 
 
@@ -12,7 +9,6 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 
-from services.user_managment import USER_MANAGMENT
 from routes.network import route_network
 from routes.auth import route_auth
 from routes.member import route_member
@@ -46,13 +42,6 @@ if __name__ == "__main__":
     \-----------------/
     """)
 
-
-    scheduler = BackgroundScheduler(deamon=True)
-    scheduler.add_job(func=USER_MANAGMENT().watcher, trigger="interval", seconds=60)
-    scheduler.start()
-
-
+    os.popen("python3 ./untils/watcher.py")
     app.run(host='0.0.0.0', port=80, threaded=False)
-    # Shut down the scheduler when exiting the app
-    atexit.register(lambda: scheduler.shutdown())
 

@@ -40,6 +40,9 @@ RUN apk add --update python3-dev && ln -sf python3 /usr/bin/python
 RUN apk add libffi-dev
 RUN apk add gcc
 RUN apk add musl-dev
+RUN apk add --no-cache tzdata
+
+ENV TZ Europe/Berlin 
 
 COPY ./backend-py/requirements.txt /app/requirements.txt
 
