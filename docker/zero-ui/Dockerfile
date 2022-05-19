@@ -34,16 +34,24 @@ RUN yarn build
 #CMD [ "node", "./bin/www" ]
 
 #### Python Backend
-FROM tiangolo/uwsgi-nginx-flask:python3.9
+FROM alpine:latest
+
+RUN apk add --update python3-dev && ln -sf python3 /usr/bin/python
+RUN apk add libffi-dev
+RUN apk add gcc
+RUN apk add musl-dev
 
 COPY ./backend-py/requirements.txt /app/requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+RUN python3 -m ensurepip
+RUN pip3 install --upgrade pip setuptools
+RUN pip3 install --no-cache-dir --upgrade -r /app/requirements.txt
 
 COPY ./backend-py /app
-
-ENV UWSGI_INI /app/uwsgi.ini
 
 COPY --from=build-stage /app/frontend/build /app/app/
 ENV FLASK_APP=main.py
 EXPOSE 80
+
+WORKDIR /app
+CMD ["python", "main.py"]
