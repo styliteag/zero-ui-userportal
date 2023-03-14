@@ -12,14 +12,29 @@ sys_vars = DARWIN() if os.uname().sysname == "Darwin" else LINUX()
 
 route_auth = Blueprint('auth', __name__)
 
-@route_auth.route('/auth/login', methods=['POST'])
+@route_auth.route('/api/auth/login', methods=['POST'])
 def login():
 
     login_data = request.json
     userdata = db.read_user_credentials(login_data.get("username"))
     if userdata != []:
         if hash.is_correct_password(userdata[0].get("salted_passwort"), login_data.get("password")):
-            response_object = Response(200, "ok", {"role" : userdata[0].get("role"), "token" : "eisvolk"})
+            response_object = Response(200, "ok", {"username" : userdata[0].get("username"), "role" : userdata[0].get("role"), "usericon" : userdata[0].get("usericon"), "token" : "eisvolk"})
+        else:
+            raise BadRequest()
+    else:
+        raise BadRequest()
+
+    return jsonify(response_object)
+
+@route_auth.route('/auth/login', methods=['POST'])
+def logn():
+
+    login_data = request.json
+    userdata = db.read_user_credentials(login_data.get("username"))
+    if userdata != []:
+        if hash.is_correct_password(userdata[0].get("salted_passwort"), login_data.get("password")):
+            response_object = Response(200, "ok", {"username" : userdata[0].get("username"), "role" : userdata[0].get("role"), "usericon" : userdata[0].get("usericon"), "token" : "eisvolk"})
         else:
             raise BadRequest()
     else:

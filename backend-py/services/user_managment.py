@@ -18,11 +18,17 @@ class USER_MANAGMENT():
         
         return hash.hash_password(passwort)
 
-    def createUserData(self, username : str, passwort : str, role : str):
+    def createUserData(self, username : str, passwort : str, role : str, usericon : str):
         if db.read_user_credentials(username) == []:
-            db.write_user_credentials(**{"username" : username, "salted_passwort" : self._hash_passwort(passwort), "role" : role})
+            db.write_user_credentials(**{"username" : username, "salted_passwort" : self._hash_passwort(passwort), "role" : role, "usericon" : usericon})
 
             return True
+
+    def updateUserData(self, username : str, passwort : str, role : str, usericon : str):
+        if db.read_user_credentials(username) != []:
+            a = db.update_user_credentials(**{"username" : username, "salted_passwort" : self._hash_passwort(passwort), "role" : role, "usericon" : usericon})
+
+            return a
 
     def delUserData(self, username : str) -> bool:
         if db.read_user_credentials(username) != []:
@@ -38,14 +44,22 @@ class USER_MANAGMENT():
         if members:
             return members
 
+    def getUserInfo(self, user : str) -> dict:
+        members = db.read_user_member(user)[0]
+        if members:
+            return members
+
     def updateUserMember(self, user : str, data : dict) -> None:
         db.clean_user_member(user)
-        if data[0].get("config") != None:
-            for member in data:
-                memberData = {"name" : self.fix_none_username(member.get("name")), "address" : member.get("config")["address"]}
-                time.sleep(0.5)
-                db.update_user_member(user, member["networkId"], memberData) 
-        else:
+        try:
+            if data[0].get("config") != None:
+                for member in data:
+                    memberData = {"name" : self.fix_none_username(member.get("name")), "address" : member.get("config")["address"]}
+                    time.sleep(0.5)
+                    db.update_user_member(user, member["networkId"], memberData) 
+            else:
+                db.clean_user_member(user)
+        except:
             db.clean_user_member(user)
 
     def isUserMemberAuth(self, nwid : str, mid : str) -> bool:

@@ -27,4 +27,4 @@ logger  = LogurLogger(logger).getlogger()
 pw_hash = hash.hash_password(sys_vars.default_admin_creditals.get("passwort"))
 
 if db.read_user_credentials(sys_vars.default_admin_creditals.get("username")) == []:    
-    db.write_user_credentials(**{"username" : sys_vars.default_admin_creditals.get("username"), "salted_passwort" : pw_hash, "role" : "admin"})
+    db.write_user_credentials(**{"username" : sys_vars.default_admin_creditals.get("username"), "salted_passwort" : pw_hash, "role" : "admin", "usericon" : ""})

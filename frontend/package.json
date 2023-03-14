@@ -1,57 +1,60 @@
 {
-  "name": "frontend",
+  "name": "zerotiervui",
+  "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
   "dependencies": {
-    "@emotion/core": "11.0.0",
-    "@emotion/react": "11.9.0",
-    "@emotion/styled": "11.8.1",
-    "@fontsource/roboto": "^4.5.0",
-    "@material-ui/core": "^4.12.3",
-    "@material-ui/icons": "^4.11.2",
-    "@material-ui/styles": "^4.11.4",
-    "@mui/material": "^5.6.2",
-    "@uiw/react-codemirror": "^3.1.0",
-    "axios": "^0.21.1",
-    "codemirror": "^5.62.3",
-    "eslint-config-react-app": "^6.0.0",
-    "history": "^5.0.1",
-    "ipaddr.js": "^2.0.1",
-    "lodash": "^4.17.21",
-    "material-ui-image": "3.3.2",
-    "react": "^17.0.2",
-    "react-data-table-component": "^6.11.8",
-    "react-dom": "^17.0.2",
-    "react-is": "^17.0.2",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
-    "react-use": "^17.2.4",
-    "styled-components": "^5.3.1"
+    "@fortawesome/free-solid-svg-icons": "^6.2.1",
+    "@imengyu/vue3-context-menu": "^1.1.1",
+    "@inkline/inkline": "^3.1.6",
+    "autoprefixer": "^10.4.12",
+    "axios": "^1.1.3",
+    "codemirror-editor-vue3": "^2.1.7",
+    "core-js": "^3.8.3",
+    "pinia": "^2.0.23",
+    "postcss": "^8.4.18",
+    "postcss-preset-env": "^7.8.2",
+    "sass": "^1.55.0",
+    "sass-loader": "10",
+    "simple-code-editor": "^1.2.2",
+    "tailwindcss": "^3.1.8",
+    "vue": "^3.2.13",
+    "vue-fullscreen": "^3.1.1",
+    "vue-router": "^4.0.3",
+    "vue3-icon": "^2.1.0"
   },
   "devDependencies": {
-    "source-map-explorer": "^2.5.2"
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3"
   },
-  "scripts": {
-    "start": "BROWSER=none PORT=8080 react-scripts start ",
-    "serve": "concurrently cross-env FAST_REFRESH=true yarn start",
-    "build": "react-scripts build",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
-  },
-  "homepage": "/app",
-  "publicPath": "http://localhost:5000/assets/",
-  "proxy": "http://localhost:5000",
   "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
     ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
 }

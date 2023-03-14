@@ -18,7 +18,8 @@ class OS_DEFAULTS():
 
     default_admin_creditals = {
         "username" : username,
-        "passwort" : password
+        "passwort" : password,
+        "usericon" : ""
         }
     try:
         default_rule_source = open("./constants/default_rules_source.txt").read()

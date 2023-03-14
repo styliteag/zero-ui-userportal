@@ -17,7 +17,8 @@ services:
   docker-host:
     image: qoomon/docker-host
     cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
-    restart: on-failure
+    mem_limit: 8M
+    restart: "no"
   zero-ui:
     image: styliteag/zero-ui-userportal:latest
     container_name: zero-ui-userportal
@@ -36,27 +37,26 @@ services:
       - ./zero-ui_data:/app/config
     environment:
       - ZU_CONTROLLER_ENDPOINT=http://docker-host:9993/
-      - ZU_DEFAULT_USERNAME=admin
-      - ZU_DEFAULT_PASSWORD=geheim
+      - ZU_DEFAULT_USERNAME=stylite
+      - ZU_DEFAULT_PASSWORD=REDACTED_PASSWORD
       #- FLASK_ENV=development
-    expose:
-      - "80"
+    #expose:
+    #  - "80"
+    restart: "no"
+  https-proxy:
+    image: caddy:latest
+    container_name: zu-https-proxy
+    restart: unless-stopped
+    depends_on:
+      - zero-ui
+    command: caddy reverse-proxy --from zt.stylite-live.net --to zero-ui:80
+    volumes:
+      - caddy_data:/data
     ports:
-      - "8080:80"
-#  https-proxy:
-#    image: caddy:latest
-#    container_name: zu-https-proxy
-#    restart: unless-stopped
-#    depends_on:
-#      - zero-ui
-#    command: caddy reverse-proxy --from example.com --to zero-ui:80
-#    volumes:
-#      - caddy_data:/data
-#    ports:
-#      - "80:80"
-#      - "443:443"
-
-#volumes:
-#  zero-ui_data:
-#  controller_data:
-#  caddy_data:
+      - "80:80"
+      - "443:443"
+    restart: "no"
+volumes:
+  zero-ui_data:
+  controller_data:
+  caddy_data:

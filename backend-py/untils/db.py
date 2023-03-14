@@ -20,12 +20,23 @@ class Zero_DB():
         self.networks   = self.db.table("networks", cache_size=0)
         self.query      = Query()
 
-    def write_user_credentials(self, username, salted_passwort, role):
+    def write_user_credentials(self, username, salted_passwort, role, usericon):
         self.users.insert({
             "username" : username,
             "salted_passwort" : salted_passwort,
-            "role" : role 
+            "role" : role,
+            "usericon" : usericon
         })
+
+    def update_user_credentials(self, username, salted_passwort, role, usericon):
+        a = self.users.search(self.query.username == username)[0]
+        self.users.update({
+            "username" : username,
+            "salted_passwort" : salted_passwort,
+            "role" : role,
+            "usericon" : usericon
+        }, where("username") == username )
+
     def merge_two_dicts(self, x, y):
         """Given two dictionaries, merge them into a new dict as a shallow copy."""
         z = x.copy()

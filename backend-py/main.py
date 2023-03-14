@@ -6,7 +6,7 @@ import os
 
 app  = Flask(__name__, static_folder="app")
 app.config['CORS_HEADERS'] = 'Content-Type'
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+cors = CORS(app, resources={r"*": {"origins": "*"}})
 
 
 from routes.network import route_network
@@ -43,6 +43,5 @@ if __name__ == "__main__":
     """)
 
 
-    os.popen("python3 ./untils/watcher.py")
     app.run(host='0.0.0.0', port=80, threaded=False)
 

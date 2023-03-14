@@ -162,4 +162,10 @@ sketch
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/vscode,yarn,react,node
+
+# Python
+__pycache__
+
+zero-ui_data/
 zero-ui_data/db.json
+caddy_data/
