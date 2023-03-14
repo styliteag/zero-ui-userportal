@@ -282,7 +282,7 @@ function isAlreadyInList(){
 
         for(let left in leftside.value){
             for(let index_index in uservalue.value[index]){
-                if(leftside.value[left].id == uservalue.value[index][index_index].address){
+                if(leftside.value[left].config.address == uservalue.value[index][index_index].address){
                     rightside.value.push(leftside.value[left]);
                 }
             }
